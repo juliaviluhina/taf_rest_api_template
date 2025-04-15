@@ -19,8 +19,11 @@ taf_rest_api_template/
 │   │   └── serviceName.model.ts  # Service-specific models
 │   │
 │   ├── services/                 # Service interaction implementations
-│   │   ├── base.service.ts       # Base service with core functionality
-│   │   └── serviceName.service.ts # Specific service implementations
+│   │   ├── serviceName/
+│   │   │    ├── base.service.ts   # Base service with core functionality - functionality for sending request, BaseService class, parent for specific services
+│   │   │    ├── service.validations.ts # Methods for different response validations,ight be used for responses of fifferent structure (universal)
+│   │   │    └── apiResponse.ts    # Class-container for response where status, header and body are stored for further analysis
+│   │   └── serviceName.service.ts # Specific service implementations, child of BaseService class
 │   │
 │   ├── features/                 # Behavior-Driven Development (BDD) features
 │   │   └── serviceName/
@@ -29,8 +32,9 @@ taf_rest_api_template/
 │   │   └── utils.ts              # Implementation of utility functions which can simlify code in different modules
 │   │
 │   └── stepDefinitions/          # Step definitions for BDD scenarios
-│       ├── common.stepDefinition.ts
-│       └── featureName.stepDefinition.ts
+│       ├── common.stepDefinition.ts # common universal step definitions applicable for any scenario, no dependency on service- or endpoint- specific details 
+│       └── serviceName/
+│           └── featureName.stepDefinition.ts #implementation of steps specific to src\features\serviceName\featureName.feature
 │
 ├── package.json
 ├── tsconfig.json
