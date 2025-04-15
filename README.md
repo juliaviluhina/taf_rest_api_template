@@ -5,47 +5,35 @@ This is a comprehensive REST API Test Automation Framework designed to provide a
 
 ## Project Structure
 //TODO - generate based on explanation
+    
+
+
 
 ## Key Components Explained
-
-### 1. Configuration Management
-- `src/config/environments.ts`: Manages different environment configurations
-- Supports multiple environments (development, staging, production)
-- Centralized configuration management
-
-### 2. Services Layer
-- `base.service.ts`: Abstract base class for API services
-- Provides common functionality like:
-  - Environment-based configuration
-  - URL construction
-  - Error handling
-- Each service (e.g., `users.service.ts`) extends the base service
-
-### 3. Models
-- Defines TypeScript interfaces for data models
-- Provides type safety
-- Ensures consistent data structure across the application
-
-### 4. Features (BDD)
-- Implements Behavior-Driven Development approach
-- Cucumber feature files describe test scenarios
-- Step definitions implement the actual test logic
-
-### 5. Utilities
-- `data.generator.ts`: Generates test data
-- `api.helper.ts`: Provides additional API-related helper functions
+//TODO - make it more well-structured and comprehelsive
+* serviceContracts folder contains JSONs which describes contracts for service (serviceName.json). JSON secribes service in swagger format
+* src\config contains configurational methods and classes (e g environments.ts describe environments and services on these environments)
+* src\models contains DTO's for all request and response JSONs for service. File <servicename>.model.ts contains all classes for certain service
+* if some DTO's are common to few services, use common.models.ts 
+* src\services contains implmentation of interactions for certain service
+    * basic functionality is described in parent class BaseService, base.service.ts
+        - it manages configuration retrieval
+        - response analysis
+        - sending requests (GET, DELETE, POST, PUT) and it's parameters
+    * specific servive extend BaseService class and implements sertain service, file name is <serviceName>.service.ts
+        - it reuses functionality of parent class and have public methods for sending requests to eact endpoint and managing parameters which are specific to this endpoint
+        - methods operates DTO classes to descrive request and response bodies
+* src\features\serviceName contains  <featureName>.feature files with BDD scenarios for certain service
+* src\stepDefinitions\ contains 
+    * common.stepDefinition.ts with step definitions which are common for BDD scenatios of many feature files
+    * <featureName>.stepDefinition.ts with step definition which are used specifically for  <featureName>.feature 
 
 ### 6. Testing Approaches
-- Integration tests
-- Performance tests
-- BDD-style feature tests
+- BDD-style feature tests to test services endpoits (send request and validate response, negative and positive scenarios)
 
 ## Features
 - TypeScript for type safety
 - Cucumber for BDD testing
-- Supertest for API interactions
-- Faker for test data generation
-- Flexible environment configuration
 - Scalable and maintainable architecture
 
 ## Setup and Installation
@@ -66,4 +54,4 @@ This is a comprehensive REST API Test Automation Framework designed to provide a
 5. Create a Pull Request
 
 ## License
-ISC License
+MIT License
