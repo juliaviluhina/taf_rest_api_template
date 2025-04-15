@@ -7,11 +7,12 @@
     "test": "cucumber-js",
     "test:dev": "ENVIRONMENT=development cucumber-js",
     "test:staging": "ENVIRONMENT=staging cucumber-js",
+    "test:uat": "ENVIRONMENT=uat cucumber-js",
     "lint": "eslint . --ext .ts",
     "prepare": "husky install"
   },
   "keywords": ["api", "testing", "typescript", "cucumber"],
-  "author": "Julia Viluhina",
+  "author": "Iuliia Iliukhina",
   "license": "ISC",
   "dependencies": {
     "supertest": "^6.3.3",
