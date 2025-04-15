@@ -1,5 +1,6 @@
 import supertest from 'supertest';
 import { getEnvironmentConfig, ServiceConfiguration } from '../config/environments';
+import { isObjectStrictlyEqual, isObjectAsExpectedIgnoringExtraProperties, isObjectValid } from '../utils/utils'
 
 /**
  * Represents the result of an API request
@@ -72,13 +73,13 @@ export abstract class BaseService {
    * @returns Raw API response
    */
   protected async sendGet(
-    pathParams: string[] = [], 
+    pathParams: string[] = [],
     queryParams?: Record<string, string | number | boolean>
   ): Promise<ApiResponse<any>> {
     try {
       const request = supertest(this._serviceConfig.baseUrl)
         .get(pathParams.join('/'));
-      
+
       if (queryParams) {
         request.query(queryParams);
       }
@@ -99,15 +100,15 @@ export abstract class BaseService {
    * @returns Raw API response
    */
   protected async sendPost(
-    pathParams: string[] = [], 
-    body: any, 
+    pathParams: string[] = [],
+    body: any,
     queryParams?: Record<string, string | number | boolean>
   ): Promise<ApiResponse<any>> {
     try {
       const request = supertest(this._serviceConfig.baseUrl)
         .post(pathParams.join('/'))
         .send(body);
-      
+
       if (queryParams) {
         request.query(queryParams);
       }
@@ -128,15 +129,15 @@ export abstract class BaseService {
    * @returns Raw API response
    */
   protected async sendPut(
-    pathParams: string[] = [], 
-    body: any, 
+    pathParams: string[] = [],
+    body: any,
     queryParams?: Record<string, string | number | boolean>
   ): Promise<ApiResponse<any>> {
     try {
       const request = supertest(this._serviceConfig.baseUrl)
         .put(pathParams.join('/'))
         .send(body);
-      
+
       if (queryParams) {
         request.query(queryParams);
       }
@@ -156,13 +157,13 @@ export abstract class BaseService {
    * @returns Raw API response
    */
   protected async sendDelete(
-    pathParams: string[] = [], 
+    pathParams: string[] = [],
     queryParams?: Record<string, string | number | boolean>
   ): Promise<ApiResponse<any>> {
     try {
       const request = supertest(this._serviceConfig.baseUrl)
         .delete(pathParams.join('/'));
-      
+
       if (queryParams) {
         request.query(queryParams);
       }
@@ -197,21 +198,59 @@ export abstract class BaseService {
    * @param bodyValidator - Optional validator function for response body
    * @throws Error if validation fails
    */
-  protected validateSuccessResponse(
-    response: ApiResponse<any>, 
-    expectedStatus: number = 200, 
-    bodyValidator?: (body: any) => boolean
+  public validateSuccessValidResponse<T>(
+    response: ApiResponse<T>,
+    expectedStatus: number = 200,
+    bodyValidator?: (body: T) => boolean
   ): void {
-    // Check status code
     if (response.status !== expectedStatus) {
       throw new Error(`Unexpected status code. Expected ${expectedStatus}, got ${response.status}`);
     }
-
-    // Validate body if validator provided
-    if (bodyValidator && !bodyValidator(response.body)) {
+    if (!isObjectValid(response.body, bodyValidator)) {
       throw new Error('Response body validation failed');
     }
   }
+
+  /**
+   * Validates successful response: actual body should have all properties of expected body, and might have more
+   * @param response - API response to validate
+   * @param expectedStatus - Expected HTTP status code (default: 200)
+   * @param expectedBody - Expected body
+   * @throws Error if validation fails
+   */
+  public validateSuccessResponseNonStrictly<T>(
+    response: ApiResponse<T>,
+    expectedStatus: number = 200,
+    expectedBody: T
+  ): void {
+    if (response.status !== expectedStatus) {
+      throw new Error(`Unexpected status code. Expected ${expectedStatus}, got ${response.status}`);
+    }
+    if (!isObjectAsExpectedIgnoringExtraProperties(expectedBody, response.body)) {
+      throw new Error('Response body validation failed');
+    }
+  }
+
+  /**
+   * Validates successful response: actual body should have all properties of expected body, and should NOT have more
+   * @param response - API response to validate
+   * @param expectedStatus - Expected HTTP status code (default: 200)
+   * @param expectedBody - Expected body
+   * @throws Error if validation fails
+   */
+  public validateSuccessResponseStrictly<T>(
+    response: ApiResponse<T>,
+    expectedStatus: number = 200,
+    expectedBody: T
+  ): void {
+    if (response.status !== expectedStatus) {
+      throw new Error(`Unexpected status code. Expected ${expectedStatus}, got ${response.status}`);
+    }
+    if (!isObjectStrictlyEqual(expectedBody, response.body)) {
+      throw new Error('Response body validation failed');
+    }
+  }
+
 
   /**
    * Validates error response
@@ -222,8 +261,8 @@ export abstract class BaseService {
    * @throws Error if validation fails
    */
   protected validateErrorResponse(
-    response: ApiResponse<any>, 
-    expectedStatus: number, 
+    response: ApiResponse<any>,
+    expectedStatus: number,
     expectedErrorText?: string,
     errorValidator?: (body: any) => boolean
   ): void {
@@ -234,10 +273,10 @@ export abstract class BaseService {
 
     // Check error text if provided
     if (expectedErrorText) {
-      const responseText = typeof response.body === 'string' 
-        ? response.body 
+      const responseText = typeof response.body === 'string'
+        ? response.body
         : JSON.stringify(response.body);
-      
+
       if (!responseText.includes(expectedErrorText)) {
         throw new Error(`Expected error text not found. Expected: ${expectedErrorText}`);
       }
@@ -256,7 +295,7 @@ export abstract class BaseService {
    * @param error - Error object
    */
   private logError(method: string, url: string, error: any): void {
-    console.error(`[API Error] ${method} ${url}:`, 
+    console.error(`[API Error] ${method} ${url}:`,
       error instanceof Error ? error.message : JSON.stringify(error)
     );
   }
@@ -266,7 +305,7 @@ export abstract class BaseService {
    * @param response - Supertest response
    */
   private logResponse(response: supertest.Response): void {
-    console.log(`[API Response] Status: ${response.status}`, 
+    console.log(`[API Response] Status: ${response.status}`,
       `Body:`, JSON.stringify(response.body).slice(0, 500) + '...'
     );
   }
