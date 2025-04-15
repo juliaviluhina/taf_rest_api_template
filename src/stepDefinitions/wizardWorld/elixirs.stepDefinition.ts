@@ -82,7 +82,7 @@ When('I send a GET request to the /Elixirs endpoint with Name parameter {string}
 });
 
 Then('the response body should contain elixirs with name {string}', (expectedName: string) => {
-  const actualResponse = retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
+  const actualResponse : ApiResponse<ElixirDto[]> = retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
   
   const matchingElixirs = actualResponse.body.filter(elixir => elixir.name === expectedName);
   
@@ -97,7 +97,7 @@ When('I send a GET request to the /Elixirs endpoint with Difficulty parameter {w
 });
 
 Then('all returned elixirs should have difficulty {word}', (expectedDifficulty: ElixirDifficulty) => {
-  const actualResponse = retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
+  const actualResponse: ApiResponse<ElixirDto[]> = retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
   
   actualResponse.body.forEach(elixir => {
     expect(elixir.difficulty).to.equal(expectedDifficulty, 
@@ -112,7 +112,7 @@ When('I send a GET request to the /Elixirs endpoint with Ingredient parameter {s
 });
 
 Then('at least one returned elixir should contain an ingredient with name {string}', (ingredientName: string) => {
-  const actualResponse = retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
+  const actualResponse: ApiResponse<ElixirDto[]> = retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
   
   const matchingElixirs = actualResponse.body.filter(elixir => 
     elixir.ingredients && 
@@ -130,7 +130,7 @@ When('I send a GET request to the /Elixirs endpoint with InventorFullName parame
 });
 
 Then('at least one returned elixir should have an inventor with the full name {string}', (fullName: string) => {
-  const actualResponse = retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
+  const actualResponse: ApiResponse<ElixirDto[]> = retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
   
   const [firstName, lastName] = fullName.split(' ');
   
@@ -153,7 +153,7 @@ When('I send a GET request to the /Elixirs endpoint with Manufacturer parameter 
 });
 
 Then('all returned elixirs should have the manufacturer {string}', (expectedManufacturer: string) => {
-  const actualResponse = retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
+  const actualResponse: ApiResponse<ElixirDto[]> = retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
   
   actualResponse.body.forEach(elixir => {
     expect(elixir.manufacturer).to.equal(expectedManufacturer, 
@@ -172,7 +172,7 @@ Then('the response body should be an empty array', () => {
 
 // Invalid difficulty (error case)
 Then('the response should contain an error message', () => {
-  const actualResponse = retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
+  const actualResponse: ApiResponse<ElixirDto[]> = retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
   
   // This might need adjustment based on actual error response structure
   expect(actualResponse.body).to.have.property('message');
