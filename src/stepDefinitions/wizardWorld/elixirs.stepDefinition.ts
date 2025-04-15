@@ -33,7 +33,7 @@ async function sendElixirsRequest(
 }
 
 // Scenario: Retrieve all elixirs
-When('I send a GET request to the /Elixirs endpoint', async (dataStorage: CustomWorld) => {
+When('I send a GET request to the Elixirs endpoint', async (dataStorage: CustomWorld) => {
   await sendElixirsRequest(dataStorage);
 });
 
@@ -78,7 +78,7 @@ Then('each elixir should have a valid structure', (dataStorage: CustomWorld) => 
 });
 
 // Scenario: Search elixirs by name
-When('I send a GET request to the /Elixirs endpoint with Name parameter {string}', async (dataStorage: CustomWorld, name: string) => {
+When('I send a GET request to the Elixirs endpoint with Name parameter {string}', async (dataStorage: CustomWorld, name: string) => {
   await sendElixirsRequest(dataStorage, name);
 });
 
@@ -93,7 +93,7 @@ Then('the response body should contain elixirs with name {string}', (dataStorage
 });
 
 // Scenario: Search elixirs by difficulty
-When('I send a GET request to the /Elixirs endpoint with Difficulty parameter {word}', async (dataStorage: CustomWorld, difficulty: ElixirDifficulty) => {
+When('I send a GET request to the Elixirs endpoint with Difficulty parameter {word}', async (dataStorage: CustomWorld, difficulty: ElixirDifficulty) => {
   await sendElixirsRequest(dataStorage, undefined, difficulty);
 });
 
@@ -108,7 +108,7 @@ Then('all returned elixirs should have difficulty {word}', (dataStorage: CustomW
 });
 
 // Scenario: Search elixirs by ingredient
-When('I send a GET request to the /Elixirs endpoint with Ingredient parameter {string}', async (dataStorage: CustomWorld, ingredient: string) => {
+When('I send a GET request to the Elixirs endpoint with Ingredient parameter {string}', async (dataStorage: CustomWorld, ingredient: string) => {
   await sendElixirsRequest(dataStorage, undefined, undefined, ingredient);
 });
 
@@ -126,7 +126,7 @@ Then('at least one returned elixir should contain an ingredient with name {strin
 });
 
 // Scenario: Search elixirs by inventor full name
-When('I send a GET request to the /Elixirs endpoint with InventorFullName parameter {string}', async (dataStorage: CustomWorld, inventorFullName: string) => {
+When('I send a GET request to the Elixirs endpoint with InventorFullName parameter {string}', async (dataStorage: CustomWorld, inventorFullName: string) => {
   await sendElixirsRequest(dataStorage, undefined, undefined, undefined, inventorFullName);
 });
 
@@ -149,7 +149,7 @@ Then('at least one returned elixir should have an inventor with the full name {s
 });
 
 // Scenario: Search elixirs by manufacturer
-When('I send a GET request to the /Elixirs endpoint with Manufacturer parameter {string}', async (dataStorage: CustomWorld, manufacturer: string) => {
+When('I send a GET request to the Elixirs endpoint with Manufacturer parameter {string}', async (dataStorage: CustomWorld, manufacturer: string) => {
   await sendElixirsRequest(dataStorage, undefined, undefined, undefined, undefined, manufacturer);
 });
 
