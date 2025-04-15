@@ -5,26 +5,33 @@
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js",
-    "test:dev": "ENVIRONMENT=development cucumber-js",
-    "test:staging": "ENVIRONMENT=staging cucumber-js",
-    "test:uat": "ENVIRONMENT=uat cucumber-js",
+    "test:dev": "ENVIRONMENT=development cucumber-js --require ts-node/register src/features/**/*.feature",
+    "test:staging": "ENVIRONMENT=staging cucumber-js --require ts-node/register src/features/**/*.feature",
+    "test:prod": "ENVIRONMENT=production cucumber-js --require ts-node/register src/features/**/*.feature",
     "lint": "eslint . --ext .ts",
     "prepare": "husky install"
   },
-  "keywords": ["api", "testing", "typescript", "cucumber"],
+  "keywords": [
+    "api",
+    "testing",
+    "typescript",
+    "cucumber"
+  ],
   "author": "Iuliia Iliukhina",
   "license": "ISC",
   "dependencies": {
-    "supertest": "^6.3.3",
-    "typescript": "^4.9.5",
-    "chai": "^4.3.7",
-    "@cucumber/cucumber": "^8.11.1",
-    "@faker-js/faker": "^7.6.0"
+    "@faker-js/faker": "^7.6.0",
+    "supertest": "^6.3.3"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.4",
+    "@cucumber/cucumber": "^8.11.1",
+    "@types/chai": "^4.3.20",
+    "@types/node": "^22.14.1",
     "@types/supertest": "^2.0.12",
+    "chai": "^4.5.0",
     "eslint": "^8.36.0",
-    "husky": "^8.0.3"
+    "husky": "^8.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
