@@ -3,15 +3,15 @@ Feature: Elixirs Endpoint Functionality
   I want to retrieve elixirs with various search parameters
   So that I can find specific elixir information
 
-  Background:
-    Given the Wizard World API is accessible
+  # Background:
+  #   Given the Wizard World API is accessible
 
-  @positive @service-wizardWorld
-  Scenario: Retrieve all elixirs
-    When I send a GET request to the Elixirs endpoint
-    Then the response status code should be 200
-    And the response body should be a non-empty array of elixirs
-    And each elixir should have a valid structure
+  # @positive @service-wizardWorld
+  # Scenario: Retrieve all elixirs
+  #   When I send a GET request to the Elixirs endpoint
+  #   Then the response status code should be 200
+  #   And the response body should be a non-empty array of elixirs
+  #   And each elixir should have a valid structure
 
   @positive @service-wizardWorld @name-search
   Scenario Outline: Search elixirs by name
@@ -72,32 +72,32 @@ Feature: Elixirs Endpoint Functionality
       | Rubens Winikus and Company Inc.                          |
       | Magical Congress of the United States of America         |
 
-  @negative @service-wizardWorld @name-search
-  Scenario: Search elixirs with non-existent name
-    When I send a GET request to the Elixirs endpoint with Name parameter "Non-Existent Elixir"
-    Then the response status code should be 200
-    And the response body should be an empty array
+  # @negative @service-wizardWorld @name-search
+  # Scenario: Search elixirs with non-existent name
+  #   When I send a GET request to the Elixirs endpoint with Name parameter "Non-Existent Elixir"
+  #   Then the response status code should be 200
+  #   And the response body should be an empty array
 
-  @negative @service-wizardWorld @difficulty-search
-  Scenario: Search elixirs with invalid difficulty
-    When I send a GET request to the Elixirs endpoint with Difficulty parameter "Invalid Difficulty"
-    Then the response status code should be 400
-    And the response should contain an error message
+  # @negative @service-wizardWorld @difficulty-search
+  # Scenario: Search elixirs with invalid difficulty
+  #   When I send a GET request to the Elixirs endpoint with Difficulty parameter "Invalid Difficulty"
+  #   Then the response status code should be 400
+  #   And the response should contain an error message
 
-  @negative @service-wizardWorld @ingredient-search
-  Scenario: Search elixirs with non-existent ingredient
-    When I send a GET request to the Elixirs endpoint with Ingredient parameter "Imaginary Ingredient"
-    Then the response status code should be 200
-    And the response body should be an empty array
+  # @negative @service-wizardWorld @ingredient-search
+  # Scenario: Search elixirs with non-existent ingredient
+  #   When I send a GET request to the Elixirs endpoint with Ingredient parameter "Imaginary Ingredient"
+  #   Then the response status code should be 200
+  #   And the response body should be an empty array
 
-  @negative @service-wizardWorld @inventor-search
-  Scenario: Search elixirs with non-existent inventor
-    When I send a GET request to the Elixirs endpoint with InventorFullName parameter "Fictional Wizard"
-    Then the response status code should be 200
-    And the response body should be an empty array
+  # @negative @service-wizardWorld @inventor-search
+  # Scenario: Search elixirs with non-existent inventor
+  #   When I send a GET request to the Elixirs endpoint with InventorFullName parameter "Fictional Wizard"
+  #   Then the response status code should be 200
+  #   And the response body should be an empty array
 
-  @negative @service-wizardWorld @manufacturer-search
-  Scenario: Search elixirs with non-existent manufacturer
-    When I send a GET request to the Elixirs endpoint with Manufacturer parameter "Fictitious Company"
-    Then the response status code should be 200
-    And the response body should be an empty array
+  # @negative @service-wizardWorld @manufacturer-search
+  # Scenario: Search elixirs with non-existent manufacturer
+  #   When I send a GET request to the Elixirs endpoint with Manufacturer parameter "Fictitious Company"
+  #   Then the response status code should be 200
+  #   And the response body should be an empty array

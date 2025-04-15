@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "cucumber-js",
-    "test:dev": "NODE_OPTIONS=--experimental-vm-modules cucumber-js",
-    "test:staging": "NODE_OPTIONS=--experimental-vm-modules cucumber-js",
-    "test:prod": "NODE_OPTIONS=--experimental-vm-modules cucumber-js",
+    "test:dev": "NODE_OPTIONS=--experimental-vm-modules cucumber-js --require ts-node/register",
+    "test:staging": "NODE_OPTIONS=--experimental-vm-modules cucumber-js --require ts-node/register",
+    "test:prod": "NODE_OPTIONS=--experimental-vm-modules cucumber-js --require ts-node/register",
     "lint": "eslint . --ext .ts",
     "prepare": "husky install"
   },

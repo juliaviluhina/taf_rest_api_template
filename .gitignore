@@ -27,3 +27,6 @@ reports/
 
 # Temporary files
 .DS_Store
+
+cucumber-report.json
+cucumber-report.html
