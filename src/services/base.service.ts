@@ -2,7 +2,6 @@ import supertest from 'supertest';
 import { getEnvironmentConfig, ServiceConfiguration } from '../config/environments';
 
 export abstract class BaseService {
-  protected request: supertest.SuperTest<supertest.Test>;
   private serviceConfig: ServiceConfiguration;
   private env: string;
   private serviceName: string;
