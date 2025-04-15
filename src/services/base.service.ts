@@ -1,22 +1,21 @@
-// src/services/base.service.ts
 import supertest from 'supertest';
-import { getEnvironmentConfig } from '../config/environments';
+import { getEnvironmentConfig, ServiceConfiguration } from '../config/environments';
 
 export abstract class BaseService {
   protected request: supertest.SuperTest<supertest.Test>;
-  protected baseUrl: string;
-  protected apiVersion: string;
+  private serviceConfig: ServiceConfiguration;
+  private env: string;
+  private serviceName: string;
 
-  constructor(env: string = 'development') {
-    const config = getEnvironmentConfig(env);
-    this.baseUrl = config.baseUrl;
-    this.apiVersion = config.apiVersion;
-    
-    this.request = supertest(this.baseUrl);
+  constructor(env: string = 'development', serviceName: string) {
+    this.serviceName = serviceName;
+    this.env = env;
+
+    this.serviceConfig = getEnvironmentConfig(env, serviceName);
   }
 
   protected getFullUrl(endpoint: string): string {
-    return `/${this.apiVersion}/${endpoint}`;
+    return `${this.serviceConfig}/${endpoint}`;
   }
 
   protected handleResponse<T>(response: supertest.Response): T {
@@ -25,4 +24,6 @@ export abstract class BaseService {
     }
     return response.body;
   }
+
+  //TODO handle methods for different types of requests - GET, POST, PUT, DELETE with parameters support, with request body support for POST and PUT
 }

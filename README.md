@@ -4,48 +4,7 @@
 This is a comprehensive REST API Test Automation Framework designed to provide a robust, scalable, and maintainable solution for API testing.
 
 ## Project Structure
-```
-taf_rest_api_template/
-│
-├── src/                    # Source code directory
-│   ├── config/             # Configuration management
-│   │   ├── environments.ts # Environment-specific configurations
-│   │   └── logger.ts       # Logging utility
-│   │
-│   ├── features/           # Behavior-Driven Development (BDD) features
-│   │   ├── users/          # User-related feature tests
-│   │   │   ├── users.feature
-│   │   │   └── users.steps.ts
-│   │   │
-│   │   ├── posts/          # Posts-related feature tests
-│   │   │   ├── posts.feature
-│   │   │   └── posts.steps.ts
-│   │
-│   ├── services/           # API service layers
-│   │   ├── base.service.ts # Base service with common API interactions
-│   │   ├── users.service.ts
-│   │   └── posts.service.ts
-│   │
-│   ├── models/             # TypeScript interfaces and type definitions
-│   │   ├── user.model.ts
-│   │   └── post.model.ts
-│   │
-│   └── utils/              # Utility functions and helpers
-│       ├── api.helper.ts   # API-related helper functions
-│       └── data.generator.ts # Test data generation
-│
-├── tests/                  # Additional test types
-│   ├── integration/        # Integration test specs
-│   │   └── api.spec.ts
-│   └── performance/        # Performance testing
-│       └── load.test.ts
-│
-├── package.json            # Project dependencies and scripts
-├── tsconfig.json           # TypeScript configuration
-├── cucumber.js             # Cucumber test runner configuration
-├── .gitignore              # Git ignore file
-└── README.md               # Project documentation
-```
+//TODO - generate based on explanation
 
 ## Key Components Explained
 
