@@ -78,7 +78,13 @@ export abstract class BaseService {
   ): Promise<ApiResponse<any>> {
     try {
       const request = supertest(this._serviceConfig.baseUrl)
-        .get(pathParams.join('/'));
+        .get(pathParams.join('/'))
+        .timeout({
+          // 'deadline' is the overall time limit for the entire request
+          deadline: this._serviceConfig.connectionTimeout || 3000,
+          // 'response' is the time to wait for the server to send response headers
+          response: this._serviceConfig.responseTimeout || 5000
+        });
 
       if (queryParams) {
         request.query(queryParams);
@@ -107,7 +113,13 @@ export abstract class BaseService {
     try {
       const request = supertest(this._serviceConfig.baseUrl)
         .post(pathParams.join('/'))
-        .send(body);
+        .send(body)
+        .timeout({
+          // 'deadline' is the overall time limit for the entire request
+          deadline: this._serviceConfig.connectionTimeout || 3000,
+          // 'response' is the time to wait for the server to send response headers
+          response: this._serviceConfig.responseTimeout || 5000
+        });
 
       if (queryParams) {
         request.query(queryParams);
@@ -136,7 +148,13 @@ export abstract class BaseService {
     try {
       const request = supertest(this._serviceConfig.baseUrl)
         .put(pathParams.join('/'))
-        .send(body);
+        .send(body)
+        .timeout({
+          // 'deadline' is the overall time limit for the entire request
+          deadline: this._serviceConfig.connectionTimeout || 3000,
+          // 'response' is the time to wait for the server to send response headers
+          response: this._serviceConfig.responseTimeout || 5000
+        });
 
       if (queryParams) {
         request.query(queryParams);
@@ -162,7 +180,13 @@ export abstract class BaseService {
   ): Promise<ApiResponse<any>> {
     try {
       const request = supertest(this._serviceConfig.baseUrl)
-        .delete(pathParams.join('/'));
+        .delete(pathParams.join('/'))
+        .timeout({
+          // 'deadline' is the overall time limit for the entire request
+          deadline: this._serviceConfig.connectionTimeout || 3000,
+          // 'response' is the time to wait for the server to send response headers
+          response: this._serviceConfig.responseTimeout || 5000
+        });
 
       if (queryParams) {
         request.query(queryParams);
