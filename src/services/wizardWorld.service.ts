@@ -1,5 +1,6 @@
-import { BaseService, ApiResponse } from './base/base.service';
+import { BaseService} from './base/base.service';
 import { filterDefinedParams } from '../utils/utils';
+import { ApiResponse } from './base/apiResponse';
 import {
     WizardDto,
     HouseDto,
