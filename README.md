@@ -25,6 +25,8 @@ taf_rest_api_template/
 │   ├── features/                 # Behavior-Driven Development (BDD) features
 │   │   └── serviceName/
 │   │       └── featureName.feature
+│   ├── utils/                    # Behavior-Driven Development (BDD) features
+│   │   └── utils.ts              # Implementation of utility functions which can simlify code in different modules
 │   │
 │   └── stepDefinitions/          # Step definitions for BDD scenarios
 │       ├── common.stepDefinition.ts
