@@ -4,54 +4,147 @@
 This is a comprehensive REST API Test Automation Framework designed to provide a robust, scalable, and maintainable solution for API testing.
 
 ## Project Structure
-//TODO - generate based on explanation
-    
-
-
+```
+taf_rest_api_template/
+│
+├── serviceContracts/             # JSON service contract definitions
+│   └── serviceName.json          # Swagger-like service contract
+│
+├── src/
+│   ├── config/                   # Configuration management
+│   │   └── environments.ts       # Environment and service configurations
+│   │
+│   ├── models/                   # Data Transfer Objects (DTOs)
+│   │   ├── common.models.ts      # Common DTOs across services
+│   │   └── serviceName.model.ts  # Service-specific models
+│   │
+│   ├── services/                 # Service interaction implementations
+│   │   ├── base.service.ts       # Base service with core functionality
+│   │   └── serviceName.service.ts # Specific service implementations
+│   │
+│   ├── features/                 # Behavior-Driven Development (BDD) features
+│   │   └── serviceName/
+│   │       └── featureName.feature
+│   │
+│   └── stepDefinitions/          # Step definitions for BDD scenarios
+│       ├── common.stepDefinition.ts
+│       └── featureName.stepDefinition.ts
+│
+├── package.json
+├── tsconfig.json
+└── README.md
+```
 
 ## Key Components Explained
-//TODO - make it more well-structured and comprehelsive
-* serviceContracts folder contains JSONs which describes contracts for service (serviceName.json). JSON secribes service in swagger format
-* src\config contains configurational methods and classes (e g environments.ts describe environments and services on these environments)
-* src\models contains DTO's for all request and response JSONs for service. File <servicename>.model.ts contains all classes for certain service
-* if some DTO's are common to few services, use common.models.ts 
-* src\services contains implmentation of interactions for certain service
-    * basic functionality is described in parent class BaseService, base.service.ts
-        - it manages configuration retrieval
-        - response analysis
-        - sending requests (GET, DELETE, POST, PUT) and it's parameters
-    * specific servive extend BaseService class and implements sertain service, file name is <serviceName>.service.ts
-        - it reuses functionality of parent class and have public methods for sending requests to eact endpoint and managing parameters which are specific to this endpoint
-        - methods operates DTO classes to descrive request and response bodies
-* src\features\serviceName contains  <featureName>.feature files with BDD scenarios for certain service
-* src\stepDefinitions\ contains 
-    * common.stepDefinition.ts with step definitions which are common for BDD scenatios of many feature files
-    * <featureName>.stepDefinition.ts with step definition which are used specifically for  <featureName>.feature 
 
-### 6. Testing Approaches
-- BDD-style feature tests to test services endpoits (send request and validate response, negative and positive scenarios)
+### Service Contracts
+- Located in `serviceContracts/` folder
+- JSON files describing service contracts in Swagger-like format
+- Provides a contract for API service specifications
+
+### Configuration
+- `src/config/environments.ts` manages:
+  - Environment-specific configurations
+  - Service endpoint mappings
+  - Authentication details
+  - Logging settings
+
+### Models (DTOs)
+- `src/models/` contains Data Transfer Objects
+- `common.models.ts` for shared DTOs
+- `<serviceName>.model.ts` for service-specific models
+- Ensures type safety and consistent data representation
+
+### Services
+#### Base Service (`base.service.ts`)
+- Core functionality for API interactions
+- Manages configuration retrieval
+- Handles response analysis
+- Provides methods for HTTP methods:
+  - GET
+  - POST
+  - PUT
+  - DELETE
+- Implements request/response logging
+- Error handling mechanisms
+
+#### Specific Service Implementation
+- Extends `BaseService`
+- Implements service-specific endpoint interactions
+- Utilizes DTO classes for request/response bodies
+- Provides public methods for specific endpoint operations
+
+### Testing Approaches
+- Behavior-Driven Development (BDD) using Cucumber
+- Feature files for service endpoint testing
+- Supports both positive and negative test scenarios
+- Step definitions for test implementation
 
 ## Features
-- TypeScript for type safety
+- TypeScript for strong typing
 - Cucumber for BDD testing
-- Scalable and maintainable architecture
+- Modular and extensible architecture
+- Environment-agnostic design
+- Comprehensive logging
+- Easy-to-extend service implementations
 
 ## Setup and Installation
-1. Clone the repository
-2. Run \`npm install\`
-3. Configure your environment settings
-4. Run tests with \`npm test\`
+1. Prerequisites:
+   - Node.js (v16+ recommended)
+   - npm (v8+)
+
+2. Clone the repository
+   ```bash
+   git clone https://github.com/juliaviluhina/taf_rest_api_template.git
+   cd taf_rest_api_template
+   ```
+
+3. Install dependencies
+   ```bash
+   npm install
+   ```
+
+4. Configure environments
+   - Edit `src/config/environments.ts`
+   - Set up service endpoints, credentials
 
 ## Running Tests
-- Development environment: \`npm run test:dev\`
-- Staging environment: \`npm run test:staging\`
+```bash
+# Run tests in different environments
+npm run test:dev        # Development environment
+npm run test:staging    # Staging environment
+npm run test:prod       # Production environment
+
+# Run specific feature
+npm run test -- --name "Feature Name"
+
+# Generate test reports
+npm run test:report
+```
+
+## Best Practices
+- Keep service contracts updated
+- Maintain clear and descriptive feature files
+- Use meaningful variable and method names
+- Add comprehensive logging
+- Handle edge cases in step definitions
+- Implement proper error handling
 
 ## Contributing
 1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
+2. Create a feature branch
+   ```bash
+   git checkout -b feature/new-test-suite
+   ```
+3. Commit changes with descriptive messages
+4. Push to your branch
 5. Create a Pull Request
+
+## Troubleshooting
+- Ensure all dependencies are installed
+- Check environment configurations
+- Verify service contract accuracy
+- Review step definition implementations
 
 ## License
 MIT License
