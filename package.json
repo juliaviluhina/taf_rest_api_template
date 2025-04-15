@@ -1,0 +1,29 @@
+{
+  "name": "taf-rest-api-template",
+  "version": "1.0.0",
+  "description": "REST API Test Automation Framework with TypeScript and Cucumber",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js",
+    "test:dev": "ENVIRONMENT=development cucumber-js",
+    "test:staging": "ENVIRONMENT=staging cucumber-js",
+    "lint": "eslint . --ext .ts",
+    "prepare": "husky install"
+  },
+  "keywords": ["api", "testing", "typescript", "cucumber"],
+  "author": "Julia Viluhina",
+  "license": "ISC",
+  "dependencies": {
+    "supertest": "^6.3.3",
+    "typescript": "^4.9.5",
+    "chai": "^4.3.7",
+    "@cucumber/cucumber": "^8.11.1",
+    "@faker-js/faker": "^7.6.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/supertest": "^2.0.12",
+    "eslint": "^8.36.0",
+    "husky": "^8.0.3"
+  }
+}
