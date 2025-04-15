@@ -1,10 +1,15 @@
 module.exports = {
   default: {
-    tags: 'not @skip',
-    format: ['progress', 'html:reports/cucumber-report.html'],
-    publishQuiet: true,
+    format: ['progress-bar', 'html:cucumber-report.html'],
+    formatOptions: {
+      snippetInterface: 'async-await'
+    },
     requireModule: ['ts-node/register'],
-    require: ['src/features/**/*.steps.ts'],
-    import: ['src/features/**/*.feature']
+    require: [
+      'src/stepDefinitions/**/*.ts'
+    ],
+    import: [
+      'src/features/**/*.feature'
+    ]
   }
-};
+}
