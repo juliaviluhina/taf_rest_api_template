@@ -20,10 +20,10 @@ export abstract class BaseService {
    * @param env - Environment name (default: 'development')
    * @param serviceName - Name of the service
    */
-  constructor(serviceName: string, env: string = 'development') {
-    this._env = env;
+  constructor(serviceName: string) {
+    this._env = process.env.ENV || 'development';
     this._serviceName = serviceName;
-    this._serviceConfig = getEnvironmentConfig(env, serviceName);
+    this._serviceConfig = getEnvironmentConfig(this._env, serviceName);
   }
 
   /**
@@ -55,22 +55,29 @@ export abstract class BaseService {
   protected getFullUrl(...pathParams: string[]): string {
     // Combine base URL with path parameters
     const pathString = pathParams.map(p => p.toString().replace(/^\/|\/$/g, '')).join('/');
-    return pathString ? `${this._serviceConfig.baseUrl}/${pathString}` : this._serviceConfig.baseUrl;
+    const result = pathString ? `${this._serviceConfig.baseUrl}/${pathString}` : this._serviceConfig.baseUrl;
+    return result;
   }
 
   /**
    * Sends GET request and returns raw response
+   * @param endpoint - API endpoint
    * @param pathParams - Path parameters for the endpoint
    * @param queryParams - Optional query parameters
    * @returns Raw API response
    */
   protected async sendGet(
+    endpoint: string,
     pathParams: string[] = [],
     queryParams?: Record<string, string | number | boolean>
   ): Promise<ApiResponse<any>> {
     try {
+      let pathParamsString = pathParams.join('/');
+      if (pathParamsString.length > 0) {
+        pathParamsString = `/${pathParamsString}`;
+      }
       const request = supertest(this._serviceConfig.baseUrl)
-        .get(pathParams.join('/'))
+        .get(`/${endpoint}${pathParamsString}`)
         .timeout({
           // 'deadline' is the overall time limit for the entire request
           deadline: this._serviceConfig.connectionTimeout || 3000,
@@ -92,19 +99,25 @@ export abstract class BaseService {
 
   /**
    * Sends POST request and returns raw response
+   * @param endpoint 
    * @param pathParams - Path parameters for the endpoint
    * @param body - Request body
    * @param queryParams - Optional query parameters
    * @returns Raw API response
    */
   protected async sendPost(
+    endpoint: string,
     pathParams: string[] = [],
     body: any,
     queryParams?: Record<string, string | number | boolean>
   ): Promise<ApiResponse<any>> {
     try {
+      let pathParamsString = pathParams.join('/');
+      if (pathParamsString.length > 0) {
+        pathParamsString = `/${pathParamsString}`;
+      }
       const request = supertest(this._serviceConfig.baseUrl)
-        .post(pathParams.join('/'))
+        .post(`/${endpoint}${pathParamsString}`)
         .send(body)
         .timeout({
           // 'deadline' is the overall time limit for the entire request
@@ -127,19 +140,25 @@ export abstract class BaseService {
 
   /**
    * Sends PUT request and returns raw response
+   * @param endpoint - API endpoint
    * @param pathParams - Path parameters for the endpoint
    * @param body - Request body
    * @param queryParams - Optional query parameters
    * @returns Raw API response
    */
   protected async sendPut(
+    endpoint: string,
     pathParams: string[] = [],
     body: any,
     queryParams?: Record<string, string | number | boolean>
   ): Promise<ApiResponse<any>> {
     try {
+      let pathParamsString = pathParams.join('/');
+      if (pathParamsString.length > 0) {
+        pathParamsString = `/${pathParamsString}`;
+      }
       const request = supertest(this._serviceConfig.baseUrl)
-        .put(pathParams.join('/'))
+        .put(`/${endpoint}${pathParamsString}`)
         .send(body)
         .timeout({
           // 'deadline' is the overall time limit for the entire request
@@ -162,17 +181,23 @@ export abstract class BaseService {
 
   /**
    * Sends DELETE request and returns raw response
+   * @param endpoint - API endpoint
    * @param pathParams - Path parameters for the endpoint
    * @param queryParams - Optional query parameters
    * @returns Raw API response
    */
   protected async sendDelete(
+    endpoint: string,
     pathParams: string[] = [],
     queryParams?: Record<string, string | number | boolean>
   ): Promise<ApiResponse<any>> {
     try {
+      let pathParamsString = pathParams.join('/');
+      if (pathParamsString.length > 0) {
+        pathParamsString = `/${pathParamsString}`;
+      }
       const request = supertest(this._serviceConfig.baseUrl)
-        .delete(pathParams.join('/'))
+        .delete(`/${endpoint}${pathParamsString}`)
         .timeout({
           // 'deadline' is the overall time limit for the entire request
           deadline: this._serviceConfig.connectionTimeout || 3000,

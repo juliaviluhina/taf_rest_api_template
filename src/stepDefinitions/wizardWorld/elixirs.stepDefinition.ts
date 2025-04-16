@@ -6,12 +6,11 @@ import {
   ElixirDto, 
   ElixirDifficulty 
 } from '../../models/wizardWorld.model';
-import { ApiResponse } from '../../services/base/apiResponse';
-import CustomWorld from '../common/world';
+import { CustomWorld } from '../../support/world';
 
 // Utility function to send GET request to Elixirs endpoint
 async function sendElixirsRequest(
-  dataStorage: CustomWorld,
+  customWorld: CustomWorld,
   name?: string, 
   difficulty?: ElixirDifficulty, 
   ingredient?: string, 
@@ -26,36 +25,16 @@ async function sendElixirsRequest(
     inventorFullName, 
     manufacturer
   );
-  
-  // Store the response data for future validation steps
-  dataStorage.storeData('elixirsResponse', response);
+  customWorld.storeResponse(response);
   return response;
 }
 
-// Scenario: Retrieve all elixirs
-When('I send a GET request to the Elixirs endpoint', async (dataStorage: CustomWorld) => {
-  await sendElixirsRequest(dataStorage);
+When('I send a GET request to the Elixirs endpoint with no parameters', async function (this: CustomWorld) {
+  await sendElixirsRequest(this);
 });
 
-// Status code validation
-Then('the response status code should be {int}', (dataStorage: CustomWorld, expectedStatus: number) => {
-  const actualResponse = dataStorage.retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
-  const serviceValidations = new ServiceValidations();
-  
-  // Use the service validation method to check status code
-  serviceValidations.validateSuccessValidResponse(actualResponse, expectedStatus);
-});
-
-// Non-empty array validation
-Then('the response body should be a non-empty array of elixirs', (dataStorage: CustomWorld) => {
-  const actualResponse = dataStorage.retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
-  
-  expect(actualResponse.body).to.be.an('array').that.is.not.empty;
-});
-
-// Elixir structure validation
-Then('each elixir should have a valid structure', (dataStorage: CustomWorld) => {
-  const actualResponse = dataStorage.retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
+Then('each elixir should have a valid structure', async function (this: CustomWorld) {
+  const actualResponse = this.retrieveResponse<ElixirDto[]>();
   
   // Custom validation function for elixir structure
   const validateElixirStructure = (elixirs: ElixirDto[]) => {
@@ -77,13 +56,12 @@ Then('each elixir should have a valid structure', (dataStorage: CustomWorld) => 
   );
 });
 
-// Scenario: Search elixirs by name
-When('I send a GET request to the Elixirs endpoint with Name parameter {string}', async (dataStorage: CustomWorld, name: string) => {
-  await sendElixirsRequest(dataStorage, name);
+When('I send a GET request to the Elixirs endpoint with Name parameter {string}', async function (this: CustomWorld, name: string) {
+  await sendElixirsRequest(this, name);
 });
 
-Then('the response body should contain elixirs with name {string}', (dataStorage: CustomWorld, expectedName: string) => {
-  const actualResponse : ApiResponse<ElixirDto[]> = dataStorage.retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
+Then('the response body should contain elixirs with name {string}', async function (this: CustomWorld, expectedName: string) {
+  const actualResponse = this.retrieveResponse<ElixirDto[]>();
   
   const matchingElixirs = actualResponse.body.filter(elixir => elixir.name === expectedName);
   
@@ -92,13 +70,12 @@ Then('the response body should contain elixirs with name {string}', (dataStorage
   );
 });
 
-// Scenario: Search elixirs by difficulty
-When('I send a GET request to the Elixirs endpoint with Difficulty parameter {word}', async (dataStorage: CustomWorld, difficulty: ElixirDifficulty) => {
-  await sendElixirsRequest(dataStorage, undefined, difficulty);
+When('I send a GET request to the Elixirs endpoint with Difficulty parameter {word}', async function (this: CustomWorld, difficulty: ElixirDifficulty) {
+  await sendElixirsRequest(this, undefined, difficulty);
 });
 
-Then('all returned elixirs should have difficulty {word}', (dataStorage: CustomWorld, expectedDifficulty: ElixirDifficulty) => {
-  const actualResponse: ApiResponse<ElixirDto[]> = dataStorage.retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
+Then('all returned elixirs should have difficulty {word}', async function (this: CustomWorld, expectedDifficulty: ElixirDifficulty) {
+  const actualResponse = this.retrieveResponse<ElixirDto[]>();
   
   actualResponse.body.forEach(elixir => {
     expect(elixir.difficulty).to.equal(expectedDifficulty, 
@@ -107,13 +84,12 @@ Then('all returned elixirs should have difficulty {word}', (dataStorage: CustomW
   });
 });
 
-// Scenario: Search elixirs by ingredient
-When('I send a GET request to the Elixirs endpoint with Ingredient parameter {string}', async (dataStorage: CustomWorld, ingredient: string) => {
-  await sendElixirsRequest(dataStorage, undefined, undefined, ingredient);
+When('I send a GET request to the Elixirs endpoint with Ingredient parameter {string}', async function (this: CustomWorld, ingredient: string){
+  await sendElixirsRequest(this, undefined, undefined, ingredient);
 });
 
-Then('at least one returned elixir should contain an ingredient with name {string}', (dataStorage: CustomWorld, ingredientName: string) => {
-  const actualResponse: ApiResponse<ElixirDto[]> = dataStorage.retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
+Then('at least one returned elixir should contain an ingredient with name {string}', async function (this: CustomWorld, ingredientName: string) {
+  const actualResponse = this.retrieveResponse<ElixirDto[]>();
   
   const matchingElixirs = actualResponse.body.filter(elixir => 
     elixir.ingredients && 
@@ -125,13 +101,12 @@ Then('at least one returned elixir should contain an ingredient with name {strin
   );
 });
 
-// Scenario: Search elixirs by inventor full name
-When('I send a GET request to the Elixirs endpoint with InventorFullName parameter {string}', async (dataStorage: CustomWorld, inventorFullName: string) => {
-  await sendElixirsRequest(dataStorage, undefined, undefined, undefined, inventorFullName);
+When('I send a GET request to the Elixirs endpoint with InventorFullName parameter {string}', async function (this: CustomWorld, inventorFullName: string) {
+  await sendElixirsRequest(this, undefined, undefined, undefined, inventorFullName);
 });
 
-Then('at least one returned elixir should have an inventor with the full name {string}', (dataStorage: CustomWorld, fullName: string) => {
-  const actualResponse: ApiResponse<ElixirDto[]> = dataStorage.retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
+Then('at least one returned elixir should have an inventor with the full name {string}', async function (this: CustomWorld, fullName: string) {
+  const actualResponse = this.retrieveResponse<ElixirDto[]>();
   
   const [firstName, lastName] = fullName.split(' ');
   
@@ -149,12 +124,12 @@ Then('at least one returned elixir should have an inventor with the full name {s
 });
 
 // Scenario: Search elixirs by manufacturer
-When('I send a GET request to the Elixirs endpoint with Manufacturer parameter {string}', async (dataStorage: CustomWorld, manufacturer: string) => {
-  await sendElixirsRequest(dataStorage, undefined, undefined, undefined, undefined, manufacturer);
+When('I send a GET request to the Elixirs endpoint with Manufacturer parameter {string}', async function (this: CustomWorld, manufacturer: string) {
+  await sendElixirsRequest(this, undefined, undefined, undefined, undefined, manufacturer);
 });
 
-Then('all returned elixirs should have the manufacturer {string}', (dataStorage: CustomWorld, expectedManufacturer: string) => {
-  const actualResponse: ApiResponse<ElixirDto[]> = dataStorage.retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
+Then('all returned elixirs should have the manufacturer {string}', async function (this: CustomWorld, expectedManufacturer: string) {
+  const actualResponse = this.retrieveResponse<ElixirDto[]>();
   
   actualResponse.body.forEach(elixir => {
     expect(elixir.manufacturer).to.equal(expectedManufacturer, 
@@ -163,18 +138,3 @@ Then('all returned elixirs should have the manufacturer {string}', (dataStorage:
   });
 });
 
-// Negative Scenarios
-// Non-existent name
-Then('the response body should be an empty array', (dataStorage: CustomWorld) => {
-  const actualResponse = dataStorage.retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
-  
-  expect(actualResponse.body).to.be.an('array').that.is.empty;
-});
-
-// Invalid difficulty (error case)
-Then('the response should contain an error message', (dataStorage: CustomWorld) => {
-  const actualResponse: ApiResponse<ElixirDto[]> = dataStorage.retrieveData<ApiResponse<ElixirDto[]>>('elixirsResponse');
-  
-  // This might need adjustment based on actual error response structure
-  expect(actualResponse.body).to.have.property('message');
-});

@@ -3,15 +3,16 @@ Feature: Elixirs Endpoint Functionality
   I want to retrieve elixirs with various search parameters
   So that I can find specific elixir information
 
-  # Background:
-  #   Given the Wizard World API is accessible
+  Scenario Outline: Search elixirs by name
+    When I send a GET request to the Elixirs endpoint with Name parameter "<ElixirName>"
+    Then the response status code should be 200
+    And the response body should contain elixirs with name "<ElixirName>"
 
-  # @positive @service-wizardWorld
-  # Scenario: Retrieve all elixirs
-  #   When I send a GET request to the Elixirs endpoint
-  #   Then the response status code should be 200
-  #   And the response body should be a non-empty array of elixirs
-  #   And each elixir should have a valid structure
+    Examples:
+      | ElixirName                |
+      | Skele-Gro                 |
+      | Strength Potion           |
+      | Draught of Peace          |
 
   @positive @service-wizardWorld @name-search
   Scenario Outline: Search elixirs by name
@@ -25,6 +26,13 @@ Feature: Elixirs Endpoint Functionality
       | Strength Potion           |
       | Draught of Peace          |
 
+  @positive @service-wizardWorld
+  Scenario: Retrieve all elixirs
+    When I send a GET request to the Elixirs endpoint with no parameters
+    Then the response status code should be 200
+    And the response body should be a non-empty array
+    And each elixir should have a valid structure
+
   @positive @service-wizardWorld @difficulty-search
   Scenario Outline: Search elixirs by difficulty
     When I send a GET request to the Elixirs endpoint with Difficulty parameter "<Difficulty>"
@@ -36,9 +44,9 @@ Feature: Elixirs Endpoint Functionality
       | Beginner      |
       | Advanced      |
       | Moderate      |
-      | Unknown       |
+      | Unknown       |    
 
-  @positive @service-wizardWorld @ingredient-search
+   @positive @service-wizardWorld @ingredient-search
   Scenario Outline: Search elixirs by ingredient
     When I send a GET request to the Elixirs endpoint with Ingredient parameter "<IngredientName>"
     Then the response status code should be 200
@@ -59,7 +67,7 @@ Feature: Elixirs Endpoint Functionality
     Examples:
       | InventorName                 |
       | Linfred of Stinchcombe       |
-      | Fleamont Potter              |
+      | Fleamont Potter              |     
 
   @positive @service-wizardWorld @manufacturer-search
   Scenario Outline: Search elixirs by manufacturer
@@ -70,34 +78,34 @@ Feature: Elixirs Endpoint Functionality
     Examples:
       | ManufacturerName                                         |
       | Rubens Winikus and Company Inc.                          |
-      | Magical Congress of the United States of America         |
+      | Magical Congress of the United States of America         |    
 
-  # @negative @service-wizardWorld @name-search
-  # Scenario: Search elixirs with non-existent name
-  #   When I send a GET request to the Elixirs endpoint with Name parameter "Non-Existent Elixir"
-  #   Then the response status code should be 200
-  #   And the response body should be an empty array
+  @negative @service-wizardWorld @name-search
+  Scenario: Search elixirs with non-existent name
+    When I send a GET request to the Elixirs endpoint with Name parameter "Non-Existent Elixir"
+    Then the response status code should be 200
+    And the response body should be an empty array
 
-  # @negative @service-wizardWorld @difficulty-search
-  # Scenario: Search elixirs with invalid difficulty
-  #   When I send a GET request to the Elixirs endpoint with Difficulty parameter "Invalid Difficulty"
-  #   Then the response status code should be 400
-  #   And the response should contain an error message
+  @negative @service-wizardWorld @difficulty-search
+  Scenario: Search elixirs with invalid difficulty
+    When I send a GET request to the Elixirs endpoint with Difficulty parameter "Invalid Difficulty"
+    Then the response status code should be 400
+    And the response should contain an error message
 
-  # @negative @service-wizardWorld @ingredient-search
-  # Scenario: Search elixirs with non-existent ingredient
-  #   When I send a GET request to the Elixirs endpoint with Ingredient parameter "Imaginary Ingredient"
-  #   Then the response status code should be 200
-  #   And the response body should be an empty array
+  @negative @service-wizardWorld @ingredient-search
+  Scenario: Search elixirs with non-existent ingredient
+    When I send a GET request to the Elixirs endpoint with Ingredient parameter "Imaginary Ingredient"
+    Then the response status code should be 200
+    And the response body should be an empty array
 
-  # @negative @service-wizardWorld @inventor-search
-  # Scenario: Search elixirs with non-existent inventor
-  #   When I send a GET request to the Elixirs endpoint with InventorFullName parameter "Fictional Wizard"
-  #   Then the response status code should be 200
-  #   And the response body should be an empty array
+  @negative @service-wizardWorld @inventor-search
+  Scenario: Search elixirs with non-existent inventor
+    When I send a GET request to the Elixirs endpoint with InventorFullName parameter "Fictional Wizard"
+    Then the response status code should be 200
+    And the response body should be an empty array
 
-  # @negative @service-wizardWorld @manufacturer-search
-  # Scenario: Search elixirs with non-existent manufacturer
-  #   When I send a GET request to the Elixirs endpoint with Manufacturer parameter "Fictitious Company"
-  #   Then the response status code should be 200
-  #   And the response body should be an empty array
+  @negative @service-wizardWorld @manufacturer-search
+  Scenario: Search elixirs with non-existent manufacturer
+    When I send a GET request to the Elixirs endpoint with Manufacturer parameter "Fictitious Company"
+    Then the response status code should be 200
+    And the response body should be an empty array     
