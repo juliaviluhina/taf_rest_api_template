@@ -22,7 +22,6 @@ export abstract class BaseService {
    */
   constructor(serviceName: string) {
     this._env = process.env.ENV || 'development';
-    console.log(`[BaseService] Environment: ${this._env}`);
     this._serviceName = serviceName;
     this._serviceConfig = getEnvironmentConfig(this._env, serviceName);
   }
@@ -57,7 +56,6 @@ export abstract class BaseService {
     // Combine base URL with path parameters
     const pathString = pathParams.map(p => p.toString().replace(/^\/|\/$/g, '')).join('/');
     const result = pathString ? `${this._serviceConfig.baseUrl}/${pathString}` : this._serviceConfig.baseUrl;
-    console.log(`[BaseService] Full URL: ${result}`);
     return result;
   }
 
@@ -74,11 +72,6 @@ export abstract class BaseService {
     queryParams?: Record<string, string | number | boolean>
   ): Promise<ApiResponse<any>> {
     try {
-      console.log('[PARAMETERS]');
-      console.log(this._serviceConfig.baseUrl);
-      console.log(pathParams);
-      console.log(JSON.stringify(queryParams));
-      console.log('------------------');
       let pathParamsString = pathParams.join('/');
       if (pathParamsString.length > 0) {
         pathParamsString = `/${pathParamsString}`;
