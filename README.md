@@ -28,11 +28,12 @@ taf_rest_api_template/
 │   ├── features/                 # Behavior-Driven Development (BDD) features
 │   │   └── serviceName/
 │   │       └── featureName.feature
-│   ├── utils/                    # Behavior-Driven Development (BDD) features
+│   ├── utils/                    # Utility functions, helpers, syntax sugar
 │   │   └── utils.ts              # Implementation of utility functions which can simlify code in different modules
 │   │
 │   └── stepDefinitions/          # Step definitions for BDD scenarios
-│       ├── common.stepDefinition.ts # common universal step definitions applicable for any scenario, no dependency on service- or endpoint- specific details 
+│       ├──common/
+│       │   └── common.stepDefinition.ts # common universal step definitions applicable for any scenario, no dependency on service- or endpoint- specific details 
 │       └── serviceName/
 │           └── featureName.stepDefinition.ts #implementation of steps specific to src\features\serviceName\featureName.feature
 │
@@ -56,7 +57,7 @@ taf_rest_api_template/
   - Logging settings
 
 ### Models (DTOs)
-- `src/models/` contains Data Transfer Objects
+- `src/models/` contains Data Transfer Objects (DTOs)
 - `common.models.ts` for shared DTOs
 - `<serviceName>.model.ts` for service-specific models
 - Ensures type safety and consistent data representation
@@ -118,14 +119,14 @@ taf_rest_api_template/
 ```bash
 # Run tests in different environments
 npm run test:dev        # Development environment
-npm run test:staging    # Staging environment
-npm run test:prod       # Production environment
+npm run test:stage      # Staging environment
+npm run test:uat       # UAT environment
 
 # Run specific feature
 npm run test -- --name "Feature Name"
 
 # Generate test reports
-npm run test:report
+npm run report
 ```
 
 ## Best Practices
