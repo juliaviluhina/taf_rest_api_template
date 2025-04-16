@@ -4,12 +4,11 @@
   "description": "REST API Test Automation Framework with TypeScript and Cucumber",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js",
-    "test:dev": "NODE_OPTIONS=--experimental-vm-modules cucumber-js --require ts-node/register",
-    "test:staging": "NODE_OPTIONS=--experimental-vm-modules cucumber-js --require ts-node/register",
-    "test:prod": "NODE_OPTIONS=--experimental-vm-modules cucumber-js --require ts-node/register",
-    "lint": "eslint . --ext .ts",
-    "prepare": "husky install"
+    "test": "mkdir -p reports && cucumber-js",
+    "test:dev": "mkdir -p reports && ENV=development cucumber-js",
+    "test:uat": "mkdir -p reports && ENV=uat cucumber-js",
+    "test:stage": "mkdir -p reports && ENV=stage",
+    "report": "node generate-report.js"
   },
   "keywords": [
     "api",
@@ -24,11 +23,12 @@
     "supertest": "^6.3.3"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^8.11.1",
+    "@cucumber/cucumber": "^11.2.0",
     "@types/chai": "^4.3.20",
     "@types/node": "^22.14.1",
     "@types/supertest": "^2.0.12",
     "chai": "^4.5.0",
+    "cucumber-html-reporter": "^6.0.0",
     "eslint": "^8.36.0",
     "husky": "^8.0.3",
     "ts-node": "^10.9.2",

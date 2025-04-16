@@ -25,8 +25,8 @@ export class WizardWorldService extends BaseService {
      * Constructor initializes the service with default environment
      * @param env - Environment name (default: 'development')
      */
-    constructor(env: string = 'development') {
-        super('wizardWorld', env);
+    constructor() {
+        super('wizardWorld');
     }
 
     // Wizards Endpoints
@@ -40,7 +40,7 @@ export class WizardWorldService extends BaseService {
             FirstName: criteria?.FirstName,
             LastName: criteria?.LastName
         });
-        return this.sendGet(['Wizards'], queryParams);
+        return this.sendGet('Wizards',[], queryParams);
     }
 
     /**
@@ -49,7 +49,7 @@ export class WizardWorldService extends BaseService {
      * @returns ApiResponse with WizardDto
      */
     async getWizardById(id: string): Promise<ApiResponse<WizardDto>> {
-        return this.sendGet(['Wizards', id]);
+        return this.sendGet('Wizards',[id], undefined);
     }
 
     // Houses Endpoints
@@ -58,7 +58,7 @@ export class WizardWorldService extends BaseService {
      * @returns ApiResponse with HouseDto array
      */
     async getHouses(): Promise<ApiResponse<HouseDto[]>> {
-        return this.sendGet(['Houses']);
+        return this.sendGet('Houses', [], undefined);
     }
 
     /**
@@ -67,7 +67,7 @@ export class WizardWorldService extends BaseService {
      * @returns ApiResponse with HouseDto
      */
     async getHouseById(id: string): Promise<ApiResponse<HouseDto>> {
-        return this.sendGet(['Houses', id]);
+        return this.sendGet('Houses', [id], undefined);
     }
 
     // Spells Endpoints
@@ -88,7 +88,7 @@ export class WizardWorldService extends BaseService {
             Type: type,
             Incantation: incantation
         });
-        return this.sendGet(['Spells'], queryParams);
+        return this.sendGet('Spells',[], queryParams);
     }
 
     /**
@@ -97,7 +97,7 @@ export class WizardWorldService extends BaseService {
      * @returns ApiResponse with SpellDto
      */
     async getSpellById(id: string): Promise<ApiResponse<SpellDto>> {
-        return this.sendGet(['Spells', id]);
+        return this.sendGet('Spells', [id], undefined);
     }
 
     // Elixirs Endpoints
@@ -124,7 +124,7 @@ export class WizardWorldService extends BaseService {
             InventorFullName: inventorFullName,
             Manufacturer: manufacturer
         });
-        return this.sendGet(['Elixirs'], queryParams);
+        return this.sendGet('Elixirs', [], queryParams);
     }
 
     // Ingredients Endpoints
@@ -134,7 +134,7 @@ export class WizardWorldService extends BaseService {
      * @returns ApiResponse with IngredientDto array
      */
     async getIngredients(name?: string): Promise<ApiResponse<IngredientDto[]>> {
-        return this.sendGet(['Ingredients'], filterDefinedParams({
+        return this.sendGet('Ingredients', [], filterDefinedParams({
             Name: name
         }));
     }
@@ -145,7 +145,7 @@ export class WizardWorldService extends BaseService {
      * @returns ApiResponse with IngredientDto
      */
     async getIngredientById(id: string): Promise<ApiResponse<IngredientDto>> {
-        return this.sendGet(['Ingredients', id]);
+        return this.sendGet('Ingredients', [id], undefined);
     }
 
     // Feedback Endpoint
@@ -155,6 +155,6 @@ export class WizardWorldService extends BaseService {
      * @returns ApiResponse with void
      */
     async postFeedback(feedbackCommand: SendFeedbackCommand): Promise<ApiResponse<void>> {
-        return this.sendPost(['Feedback'], feedbackCommand);
+        return this.sendPost('Feedback', [], feedbackCommand);
     }
 }

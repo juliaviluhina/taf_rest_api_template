@@ -1,0 +1,40 @@
+{
+  "name": "taf-rest-api-template",
+  "version": "1.0.0",
+  "description": "REST API Test Automation Framework with TypeScript and Cucumber",
+  "main": "index.js",
+  "scripts": {
+    // "test": "cucumber-js src/features --format summary --require 'src/stepDefinitions/**/*.ts' --require-module ts-node/register",
+    "test": "npx cucumber-js --require-module ts-node/register --format json:./reports/cucumber_report.json",
+    "test:dev": "cucumber-js --require 'stepDefinitions/**/*.ts' --require-module ts-node/register",
+    "test:staging": "NODE_OPTIONS=--experimental-vm-modules cucumber-js  --publish-quiet",
+    "test:prod": "NODE_OPTIONS=--experimental-vm-modules cucumber-js  --publish-quiet",
+    "lint": "eslint . --ext .ts",
+    "prepare": "husky install"
+  },
+  "keywords": [
+    "api",
+    "testing",
+    "typescript",
+    "cucumber"
+  ],
+  "author": "Iuliia Iliukhina",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^8.11.1",
+    "@types/chai": "^4.3.20",
+    "@types/cucumber": "^7.0.0",
+    "@types/node": "^22.14.1",
+    "@types/supertest": "^2.0.12",
+    "chai": "^4.5.0",
+    "cucumber-html-reporter": "^7.2.0",
+    "eslint": "^8.36.0",
+    "husky": "^8.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
